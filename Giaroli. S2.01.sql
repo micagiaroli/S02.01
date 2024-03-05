@@ -88,3 +88,14 @@ JOIN company
 ON transaction.company_id = company.id
 GROUP BY company_name;
 
+## alternativa con subquerys y usando IF
+
+SELECT company_name, number_trans,
+    IF(number_trans > 4, 'T', 'F') AS more_than_4
+FROM 
+    (SELECT COUNT(transaction.id) AS number_trans, company.company_name
+    FROM transaction
+    JOIN company
+    ON transaction.company_id = company.id
+    GROUP BY company.company_name) AS tab_num_tran_comp;
+
